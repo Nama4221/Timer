@@ -1,4 +1,4 @@
-This programm requests described commands from user and executes them, duh
+This programm requests described commands from user and executes them, duh\n
 
 Console.WriteLine("set_time - настройка времени") - time setting
 Console.WriteLine("show_time - показ времени") - time display
