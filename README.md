@@ -1,5 +1,3 @@
-# Timer
-University's 2nd year task
 This programm requests described commands from user and executes them, duh
 
 Console.WriteLine("set_time - настройка времени") - time setting
