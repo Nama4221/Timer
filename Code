@@ -1,0 +1,166 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication4
+{
+    static class Time
+    {
+        static int sec=0, min=0, hr=0;
+
+        public static void Clock ()
+        {
+            while (true)
+            {
+                Thread.Sleep(1000);
+                sec++;
+                if (sec == 60)
+                {
+                    sec = 0;
+                    min++;
+                }
+
+                if (min == 60)
+                {
+                    min = 0;
+                    hr++;
+                }
+            }
+        }
+
+        static public void set_time(int a, int b, int c)
+        {
+            sec = a;
+            min = b;
+            hr = c;
+            while (sec >= 60)
+            {
+                sec -= 60;
+                min++;
+            }
+            while (min >= 60)
+            {
+                min -= 60;
+                hr++;
+            }
+        }
+
+        static public void add_time(int a, int b, int c)
+        {
+            sec += a;
+            min += b;
+            hr += c;
+            while (sec >= 60)
+            {
+                sec -= 60;
+                min++;
+            }
+            while (min >= 60)
+            {
+                min -= 60;
+                hr++;
+            }
+        }
+
+        static public void show_time()
+        {
+            Console.WriteLine(hr + ":"+min+":"+ sec);
+        }
+
+
+
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Thread clock = new Thread(Time.Clock);
+
+            Console.WriteLine("set_time - настройка времени");
+            Console.WriteLine("show_time - показ времени");
+            Console.WriteLine("add_time - добавление времени");
+            Console.WriteLine("start - запуск часов");
+            Console.WriteLine("stop - остановка часов");
+            Console.WriteLine("exit - выход из программы");
+
+            int a, b, c;
+            string choice;
+            while(true)
+            {
+                Console.Write("Введите команду: ");
+                choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "set_time":
+                        try
+                        {
+                            Console.Write("sec = ");
+                            a = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("min = ");
+                            b = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("hr = ");
+                            c = Convert.ToInt32(Console.ReadLine());
+                            Time.set_time(a, b, c);
+                        }
+                        catch
+                        {
+                            a = 0;
+                            b = 0;
+                            c = 0;
+                            Console.WriteLine("Введены неверные данные, все значения сброшены");
+                        }
+                        break;
+
+                    case "add_time":
+                        try
+                        {
+                            Console.Write("sec = ");
+                            a = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("min = ");
+                            b = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("hr = ");
+                            c = Convert.ToInt32(Console.ReadLine());
+                            Time.add_time(a, b, c);
+                        }
+                        catch
+                        {
+                            a = 0;
+                            b = 0;
+                            c = 0;
+                            Console.WriteLine("Введены неверные данные, все значения сброшены");
+                        }
+                        break;
+
+                    case "show_time":
+                        Time.show_time();
+                        break;
+
+                    case "start":
+                        try
+                        {
+                            clock.Start();
+                        }
+                        catch
+                        {
+                            clock.Resume();
+                        }
+                        break;
+
+                    case "stop":
+                        clock.Suspend();
+                        break;
+
+                    case "exit":
+                        return;
+
+                    default:
+                        Console.WriteLine("Введена неверная команда");
+                        break;
+                }
+            }
+        }
+    }
+}
